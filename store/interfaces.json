@@ -1,0 +1,11 @@
+{
+  "flow-finance-account-create": {
+    "component": "AccountCreatePage"
+  },
+  "flow-finance-promo-message": {
+    "component": "PromoMessage"
+  },
+  "store.flow-finance": {
+    "required": ["flow-finance-account-create"]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "vendor": "vtex",
+  "name": "flow-finance-components",
+  "version": "0.0.1",
+  "title": "Flow Finance Components",
+  "description": "Front end components for Flow Finance payment system",
+  "defaultLocale": "pt-BR",
+  "builders": {
+    "messages": "1.x",
+    "store": "0.x",
+    "react": "3.x",
+    "docs": "0.x"
+  },
+  "mustUpdateAt": "2019-04-02",
+  "scripts": {
+    "postreleasy": "vtex publish --verbose"
+  },
+  "settingsSchema": {
+    "title": "Flow Finance",
+    "type": "object",
+    "properties": {
+      "storeName": {
+        "title": "Store name",
+        "description": "Shown on Account Sign Up form",
+        "type": "string"
+      },
+      "storePaymentName": {
+        "title": "Store-branded payment name",
+        "description": "Shown on Account Sign Up form",
+        "type": "string"
+      }
+    }
+  },
+  "dependencies": {
+    "vtex.flow-finance-api": "0.x",
+    "vtex.store": "2.x",
+    "vtex.store-components": "3.x",
+    "vtex.styleguide": "9.x",
+    "vtex.css-handles": "0.x",
+    "vtex.address-form": "4.x",
+    "vtex.store-graphql": "2.x",
+    "vtex.apps-graphql": "2.x",
+    "vtex.product-context": "0.x"
+  },
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
+}

@@ -1,0 +1,3 @@
+mutation PreQualify($cnpj: String!) {
+  checkPreQualify(cnpj: $cnpj) @context(provider: "vtex.flow-finance-api")
+}

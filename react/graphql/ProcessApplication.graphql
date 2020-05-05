@@ -1,0 +1,7 @@
+mutation ProcessApplication($application: ApplicationInput!) {
+  processApplication(application: $application)
+    @context(provider: "vtex.flow-finance-api") {
+    success
+    error
+  }
+}

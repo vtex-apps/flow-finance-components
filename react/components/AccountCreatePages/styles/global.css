@@ -1,0 +1,40 @@
+.vtex-flow-finance-components-0-x-AccountCreatePageContainer
+  .styleguide__pageBlock {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.vtex-flow-finance-components-0-x-businessAddressSection > div,
+.vtex-flow-finance-components-0-x-personalAddressSection > div {
+  display: -webkit-box;
+  display: flex;
+  flex-flow: row wrap;
+  -webkit-box-direction: normal;
+  -webkit-box-orient: horizontal;
+}
+
+.vtex-flow-finance-components-0-x-accountCreateStepNumber svg {
+  color: white;
+}
+
+.vtex-address-form__postalCode > div {
+  display: none;
+}
+
+@media screen and (min-width: 20em) {
+  .vtex-flow-finance-components-0-x-businessAddressSection > div > *,
+  .vtex-flow-finance-components-0-x-personalAddressSection > div > *,
+  .vtex-address-form__postalCode {
+    width: 100%;
+    padding: 0.25rem;
+  }
+}
+
+@media screen and (min-width: 40em) {
+  .vtex-flow-finance-components-0-x-businessAddressSection > div > *,
+  .vtex-flow-finance-components-0-x-personalAddressSection > div > *,
+  .vtex-address-form__postalCode {
+    width: 50%;
+    padding: 0.25rem;
+  }
+}
