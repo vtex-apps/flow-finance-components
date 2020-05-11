@@ -9,9 +9,10 @@ This app provides store components related to the [Flow Finance payment method](
 ## Configuration
 
 1. [Install](https://vtex.io/docs/recipes/store/installing-an-app) `vtex.flow-finance-components` in the desired account;
-2. In the account's admin, access **Apps** and then select the **Flow Finance Components** box;
-3. Input your `Store Name` and `Store-branded Payment Name`, and click Save;
-4. Add this app as a dependency in your store-theme's `manifest.json`:
+2. Upload a PDF containing the Terms & Conditions that shoppers must agree to when applying for a Flow Finance account to the location of your choice and make a note of the URL.
+3. In the account's admin, access **Apps** and then select the **Flow Finance Components** box;
+4. Input your `Store Name` and `Store-branded Payment Name`, as well as the URL of the `Terms & Conditions PDF` from step 2, and click Save;
+5. Add this app as a dependency in your store-theme's `manifest.json`:
 
 ```json
 "dependencies": {
@@ -61,7 +62,7 @@ In order to apply CSS customizations in this and other blocks, follow the instru
 | `documentTypesContainer`           |
 | `documentTypeContainer`            |
 | `tosAcceptanceContainer`           |
-| `tosTextContainer`                 |
+| `tosIframeContainer`               |
 | `documentsPageButtonContainer`     |
 | `documentsPageErrorContainer`      |
 | `introPageContainer`               |

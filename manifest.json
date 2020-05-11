@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "flow-finance-components",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "title": "Flow Finance Components",
   "description": "Front end components for Flow Finance payment system",
   "defaultLocale": "pt-BR",
@@ -27,6 +27,11 @@
       "storePaymentName": {
         "title": "Store-branded payment name",
         "description": "Shown on Account Sign Up form",
+        "type": "string"
+      },
+      "tosPdfPath": {
+        "title": "URL for Terms & Conditions PDF",
+        "description": "Displayed to user in account sign-up form",
         "type": "string"
       }
     }

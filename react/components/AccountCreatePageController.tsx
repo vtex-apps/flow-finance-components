@@ -20,6 +20,7 @@ interface ExitProps {
 interface Settings {
   storeName: string
   storePaymentName: string
+  tosPdfPath: string
 }
 
 const AccountCreatePageController: StorefrontFunctionComponent<ExitProps> = ({
@@ -53,7 +54,7 @@ const AccountCreatePageController: StorefrontFunctionComponent<ExitProps> = ({
       {currentPage === 5 && (
         <Fragment>
           <AccountCreateSteps />
-          <DocumentsPage />
+          <DocumentsPage settings={settings} />
         </Fragment>
       )}
       {currentPage === 6 && (

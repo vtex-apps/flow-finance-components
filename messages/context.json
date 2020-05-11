@@ -62,7 +62,6 @@
   "store/flowFinance.accountCreate.documents.uploadInstructions": "store/flowFinance.accountCreate.documents.uploadInstructions",
   "store/flowFinance.accountCreate.documents.fileRestrictions": "store/flowFinance.accountCreate.documents.fileRestrictions",
   "store/flowFinance.accountCreate.tosTitle": "store/flowFinance.accountCreate.tosTitle",
-  "store/flowFinance.accountCreate.tosText": "store/flowFinance.accountCreate.tosText",
   "store/flowFinance.accountCreate.tosCheckboxLabel": "store/flowFinance.accountCreate.tosCheckboxLabel",
   "store/flowFinance.accountCreate.submitApplication": "store/flowFinance.accountCreate.submitApplication",
   "store/flowFinance.accountCreate.submitApplication.error": "store/flowFinance.accountCreate.submitApplication.error",

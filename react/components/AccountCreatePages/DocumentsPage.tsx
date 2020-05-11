@@ -27,13 +27,21 @@ import IconContrato from '../../images/contrato.svg'
 import IconContratoGray from '../../images/contrato-gray.svg'
 import ProcessApplication from '../../graphql/ProcessApplication.graphql'
 
+interface DocumentsPageProps {
+  settings: Settings
+}
+
+interface Settings {
+  tosPdfPath: string
+}
+
 const CSS_HANDLES = [
   'documentsPageContainer',
   'documentsPageInstructions',
   'documentTypesContainer',
   'documentTypeContainer',
   'tosAcceptanceContainer',
-  'tosTextContainer',
+  'tosIframeContainer',
   'documentsPageButtonContainer',
   'documentsPageErrorContainer',
 ] as const
@@ -46,11 +54,11 @@ const messages = defineMessages({
   },
 })
 
-const DocumentsPage: StorefrontFunctionComponent<WrappedComponentProps> = ({
-  intl,
-}) => {
+const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
+  WrappedComponentProps> = ({ settings: { tosPdfPath }, intl }) => {
   const handles = useCssHandles(CSS_HANDLES)
   const [pageMode, setPageMode] = useState('select')
+  const [pdfLoaded, setPdfLoaded] = useState(false)
   const [tosAccepted, setTosAccepted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [submitError, setSubmitError] = useState('')
@@ -175,13 +183,6 @@ const DocumentsPage: StorefrontFunctionComponent<WrappedComponentProps> = ({
                   value: personalInformation.physicalDocValue,
                 },
               ],
-              // virtualDocument: [
-              //   {
-              //     type: 'RG',
-              //     value: personalInformation.virtualDocValue,
-              //     exp: personalInformation.virtualDocExp,
-              //   },
-              // ],
             },
             contactInfo: {
               email: personalInformation.email,
@@ -356,18 +357,19 @@ const DocumentsPage: StorefrontFunctionComponent<WrappedComponentProps> = ({
           <Divider orientation="horizontal" />
           {documentsValid && (
             <div className={`${handles.tosAcceptanceContainer} mt7 mb7`}>
-              <div
-                className={`${handles.tosTextContainer} overflow-x-auto pa5 ba b--muted-3 mb2`}
-                style={{ maxHeight: 300 }}
-              >
-                <h2>
-                  <FormattedMessage id="store/flowFinance.accountCreate.tosTitle" />
-                </h2>
-                <FormattedMessage
-                  id="store/flowFinance.accountCreate.tosText"
-                  values={{
-                    lineBreak: <br />,
-                  }}
+              <h2>
+                <FormattedMessage id="store/flowFinance.accountCreate.tosTitle" />
+              </h2>
+              <div className={`${handles.tosIframeContainer} mb7`}>
+                <iframe
+                  title="Flow Finance Loan Agreement"
+                  width="95%"
+                  height={400}
+                  src={tosPdfPath}
+                  data-testid="embedded-pdf"
+                  className="db center"
+                  frameBorder="0"
+                  onLoad={() => setPdfLoaded(true)}
                 />
               </div>
               <Checkbox
@@ -376,6 +378,7 @@ const DocumentsPage: StorefrontFunctionComponent<WrappedComponentProps> = ({
                     <FormattedMessage id="store/flowFinance.accountCreate.tosCheckboxLabel" />
                   </span>
                 }
+                className="mt4"
                 checked={tosAccepted}
                 id="tos-accept"
                 name="tos-accept"
@@ -387,7 +390,7 @@ const DocumentsPage: StorefrontFunctionComponent<WrappedComponentProps> = ({
           <div className={`${handles.documentsPageButtonContainer} mt6`}>
             <Button
               variation="primary"
-              disabled={!documentsValid || !tosAccepted}
+              disabled={!documentsValid || !tosAccepted || !pdfLoaded}
               isLoading={isLoading}
               onClick={() => handleContinueClick()}
             >
