@@ -17,7 +17,19 @@
   color: white;
 }
 
-.vtex-address-form__postalCode > div {
+.vtex-flow-finance-components-0-x-businessAddressSection
+  .vtex-address-form__receiverName,
+.vtex-flow-finance-components-0-x-personalAddressSection
+  .vtex-address-form__receiverName {
+  display: none;
+}
+
+.vtex-flow-finance-components-0-x-businessAddressSection
+  .vtex-address-form__postalCode
+  > div,
+.vtex-flow-finance-components-0-x-personalAddressSection
+  .vtex-address-form__postalCode
+  > div {
   display: none;
 }
 

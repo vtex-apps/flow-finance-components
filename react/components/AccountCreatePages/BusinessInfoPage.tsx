@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import {
   AddressContainer,
   AddressForm as AddressFields,
@@ -27,7 +29,7 @@ interface AddressProps {
 }
 
 const { StyleguideInput } = inputs
-const { addValidation, isValidAddress, validateAddress, injectRules } = helpers
+const { addValidation, isValidAddress, injectRules, validateAddress } = helpers
 
 const CSS_HANDLES = [
   'businessInfoPageContainer',
@@ -98,9 +100,7 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   addressWithValidation.receiverName.postalCodeAutoCompleted = true
   const [address, setAddress] = useState(addressWithValidation)
   const [formattedPhone, setFormattedPhone] = useState(
-    businessInformation.phoneNumber !== ''
-      ? formatPhone(businessInformation.phoneNumber)
-      : ''
+    formatPhone(businessInformation.phoneNumber)
   )
   const [showErrors, setShowErrors] = useState(false)
   const [showPhoneError, setShowPhoneError] = useState(false)
@@ -138,10 +138,20 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   async function handleAddressChange(newAddress: AddressFormFields) {
     const curAddress = address
     const combinedAddress = { ...curAddress, ...newAddress }
-    const verifiedAddress = validateAddress(combinedAddress, rules)
-    verifiedAddress.receiverName.value = 'notApplicable'
-    verifiedAddress.receiverName.postalCodeAutoCompleted = true
-    setAddress(verifiedAddress)
+    setAddress(combinedAddress)
+  }
+
+  async function handleAddressFieldChange(newAddress: AddressFormFields) {
+    const curAddress = address
+    const validatedField = validateAddress(newAddress, rules)
+    const combinedAddress = { ...curAddress, ...validatedField }
+    setAddress(combinedAddress)
+  }
+
+  async function handleShowErrors() {
+    const validatedAddress = validateAddress(address, rules)
+    setAddress(validatedAddress)
+    setShowErrors(true)
   }
 
   async function handleContinueClick() {
@@ -201,7 +211,6 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.companyPhoneLabel)}
             value={formattedPhone}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowPhoneError(true)
               const newValue = e.currentTarget.value.replace(/[^\d]/g, '')
               setFormattedPhone(() => formatPhone(newValue))
               dispatch({
@@ -212,6 +221,7 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowPhoneError(true)}
             errorMessage={
               (showErrors || showPhoneError) &&
               (businessInformation.phoneNumber.length < 10 ||
@@ -226,7 +236,6 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.companyNameLabel)}
             value={businessInformation.name}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowNameError(true)
               dispatch({
                 type: 'SET_BUSINESS_FIELD',
                 args: {
@@ -235,6 +244,7 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowNameError(true)}
             errorMessage={
               (showErrors || showNameError) && businessInformation.name === ''
                 ? intl.formatMessage(messages.companyNameError)
@@ -247,7 +257,6 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.companyLegalNameLabel)}
             value={businessInformation.legalName}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowLegalNameError(true)
               dispatch({
                 type: 'SET_BUSINESS_FIELD',
                 args: {
@@ -256,6 +265,7 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowLegalNameError(true)}
             errorMessage={
               (showErrors || showLegalNameError) &&
               businessInformation.legalName === ''
@@ -279,10 +289,10 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
           <AddressFields
             address={address}
             Input={StyleguideInput}
-            omitAutoCompletedFields
+            omitAutoCompletedFields={false}
             omitPostalCodeFields
             onChangeAddress={(newAddress: AddressFormFields) =>
-              handleAddressChange(newAddress)
+              handleAddressFieldChange(newAddress)
             }
             notApplicableLabel={intl.formatMessage({
               id: 'store/flowFinance.accountCreate.addressNotApplicable',
@@ -291,13 +301,14 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
         </AddressContainer>
       </section>
       <Divider orientation="horizontal" />
-      <div className={`${handles.businessInfoPageButtonContainer} mt6`}>
+      <div
+        className={`${handles.businessInfoPageButtonContainer} mt6`}
+        onClick={() => handleShowErrors()}
+      >
         <Button
           variation="primary"
           disabled={!businessInfoValid}
           onClick={() => handleContinueClick()}
-          onMouseEnter={() => setShowErrors(true)}
-          onFocus={() => setShowErrors(true)}
         >
           <FormattedMessage id="store/flowFinance.accountCreate.businessInfo.submit" />
         </Button>

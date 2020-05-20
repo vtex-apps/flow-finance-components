@@ -4,7 +4,7 @@
 
 This app provides store components related to the [Flow Finance payment method](https://github.com/vtex-apps/flow-finance-payment): an account sign-up form and a promo message for the PDP.
 
-:warning: The account sign-up form will not function unless the [Flow Finance API](https://github.com/vtex-apps/flow-finance-api) app has been installed and configured.
+:warning: The account sign-up form will not function unless the two [Flow Finance payment method](https://github.com/vtex-apps/flow-finance-payment) apps have been installed and configured (see instructions at link).
 
 ## Configuration
 
@@ -29,7 +29,7 @@ This app also provides a `flow-finance-promo-message` block which can be added t
 | `interestRate` | `number` | Interest rate for loan estimate calculation (1.5% = 0.015) | `0.0149`      |
 | `installments` | `number` | Number of installments for loan estimate                   | `12`          |
 
-This block also includes a link which, when clicked, will open the Flow Finance account sign-up form as a modal directly on the PDP.
+This block also includes a link which, when clicked, will open the Flow Finance account sign-up form as a modal directly on the PDP. The link is only shown if a shopper is logged in, and if they do not have a Flow Finance account.
 
 ## Customization
 

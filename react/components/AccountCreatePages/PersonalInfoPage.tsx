@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import {
   AddressContainer,
   AddressForm as AddressFields,
@@ -162,18 +164,18 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   } = useAccountCreateState()
   const dispatch = useAccountCreateDispatch()
   const handles = useCssHandles(CSS_HANDLES)
-  const [formattedPhone, setFormattedPhone] = useState('')
-  const [formattedCPF, setFormattedCPF] = useState('')
-  // const [formattedRG, setFormattedRG] = useState('')
-  // const [formattedRGExp, setFormattedRGExp] = useState('')
+  const [formattedPhone, setFormattedPhone] = useState(
+    formatPhone(personalInformation.phoneNumber)
+  )
+  const [formattedCPF, setFormattedCPF] = useState(
+    formatCPF(personalInformation.idNumber)
+  )
   const [showErrors, setShowErrors] = useState(false)
   const [showPhoneError, setShowPhoneError] = useState(false)
   const [showFirstNameError, setShowFirstNameError] = useState(false)
   const [showLastlNameError, setShowLastNameError] = useState(false)
   const [showEmailError, setShowEmailError] = useState(false)
   const [showCPFError, setShowCPFError] = useState(false)
-  // const [showRGError, setShowRGError] = useState(false)
-  // const [showRGExpError, setShowRGExpError] = useState(false)
   const [showMaritalStatusError, setShowMaritalStatusError] = useState(false)
 
   const addressWithValidation = addValidation({
@@ -217,10 +219,20 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   async function handleAddressChange(newAddress: AddressFormFields) {
     const curAddress = address
     const combinedAddress = { ...curAddress, ...newAddress }
-    const verifiedAddress = validateAddress(combinedAddress, rules)
-    verifiedAddress.receiverName.value = 'notApplicable'
-    verifiedAddress.receiverName.postalCodeAutoCompleted = true
-    setAddress(verifiedAddress)
+    setAddress(combinedAddress)
+  }
+
+  async function handleAddressFieldChange(newAddress: AddressFormFields) {
+    const curAddress = address
+    const validatedField = validateAddress(newAddress, rules)
+    const combinedAddress = { ...curAddress, ...validatedField }
+    setAddress(combinedAddress)
+  }
+
+  async function handleShowErrors() {
+    const validatedAddress = validateAddress(address, rules)
+    setAddress(validatedAddress)
+    setShowErrors(true)
   }
 
   async function handleContinueClick() {
@@ -273,7 +285,6 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.firstNameLabel)}
             value={personalInformation.firstName}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowFirstNameError(true)
               dispatch({
                 type: 'SET_PERSONAL_FIELD',
                 args: {
@@ -282,6 +293,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowFirstNameError(true)}
             errorMessage={
               (showErrors || showFirstNameError) &&
               personalInformation.firstName === ''
@@ -295,7 +307,6 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.lastNameLabel)}
             value={personalInformation.lastName}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowLastNameError(true)
               dispatch({
                 type: 'SET_PERSONAL_FIELD',
                 args: {
@@ -304,6 +315,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowLastNameError(true)}
             errorMessage={
               (showErrors || showLastlNameError) &&
               personalInformation.lastName === ''
@@ -317,7 +329,6 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.cpfLabel)}
             value={formattedCPF}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowCPFError(true)
               const newValue = e.currentTarget.value.replace(/[^\d]/g, '')
               setFormattedCPF(formatCPF(newValue))
               dispatch({
@@ -328,6 +339,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowCPFError(true)}
             errorMessage={
               (showErrors || showCPFError) &&
               personalInformation.idNumber.length !== 11
@@ -337,6 +349,9 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
           />
         </div>
         <div className="w-50-ns w-100-s pa2 pb4">
+          <span className="vtex-input__label db mb3 w-100 c-on-base t-small ">
+            &nbsp;
+          </span>
           <Toggle
             label={intl.formatMessage(messages.pepLabel)}
             checked={personalInformation.pep}
@@ -366,14 +381,13 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
       </section>
       <Divider orientation="horizontal" />
       <section
-        className={`${handles.personalContactSection} flex flex-row flex-wrap mb7`}
+        className={`${handles.personalContactSection} flex flex-row flex-wrap mt7 mb7`}
       >
         <div className="w-50-ns w-100-s pa2 pb4">
           <Input
             label={intl.formatMessage(messages.phoneNumberLabel)}
             value={formattedPhone}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowPhoneError(true)
               const newValue = e.currentTarget.value.replace(/[^\d]/g, '')
               setFormattedPhone(() => formatPhone(newValue))
               dispatch({
@@ -384,6 +398,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowPhoneError(true)}
             errorMessage={
               (showErrors || showPhoneError) &&
               personalInformation.phoneNumber.length < 10
@@ -397,7 +412,13 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             label={intl.formatMessage(messages.emailLabel)}
             value={personalInformation.email}
             onChange={(e: React.FormEvent<HTMLInputElement>) => {
-              setShowEmailError(true)
+              dispatch({
+                type: 'SET_BUSINESS_FIELD',
+                args: {
+                  field: 'email',
+                  value: e.currentTarget.value,
+                },
+              })
               dispatch({
                 type: 'SET_PERSONAL_FIELD',
                 args: {
@@ -406,6 +427,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
                 },
               })
             }}
+            onBlur={() => setShowEmailError(true)}
             errorMessage={
               (showErrors || showEmailError) &&
               (personalInformation.email === '' ||
@@ -466,7 +488,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
         </div>
       </section>
       <Divider orientation="horizontal" />
-      <section className={`${handles.personalAddressSection} mb7`}>
+      <section className={`${handles.personalAddressSection} mt7 mb7`}>
         <AddressContainer
           address={address}
           Input={StyleguideInput}
@@ -479,10 +501,10 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
           <AddressFields
             address={address}
             Input={StyleguideInput}
-            omitAutoCompletedFields
+            omitAutoCompletedFields={false}
             omitPostalCodeFields
             onChangeAddress={(newAddress: AddressFormFields) =>
-              handleAddressChange(newAddress)
+              handleAddressFieldChange(newAddress)
             }
             notApplicableLabel={intl.formatMessage({
               id: 'store/flowFinance.accountCreate.addressNotApplicable',
@@ -491,13 +513,14 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
         </AddressContainer>
       </section>
       <Divider orientation="horizontal" />
-      <div className={`${handles.personalInfoPageButtonContainer} mt6`}>
+      <div
+        className={`${handles.personalInfoPageButtonContainer} mt6`}
+        onClick={() => handleShowErrors()}
+      >
         <Button
           variation="primary"
           disabled={!personalInfoValid}
           onClick={() => handleContinueClick()}
-          onMouseEnter={() => setShowErrors(true)}
-          onFocus={() => setShowErrors(true)}
         >
           <FormattedMessage id="store/flowFinance.accountCreate.personalInfo.submit" />
         </Button>

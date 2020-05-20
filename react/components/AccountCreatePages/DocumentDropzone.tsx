@@ -4,7 +4,6 @@ import { useDropzone } from 'react-dropzone'
 import {
   Button,
   ButtonWithIcon,
-  IconClose,
   IconDelete,
   Spinner,
   Divider,
@@ -15,6 +14,7 @@ import {
   useAccountCreateDispatch,
 } from '../AccountCreateContext'
 import IconUpload from '../../images/upload.svg'
+import IconWarning from '../../images/warning.svg'
 
 interface DropProps {
   maxSize: number
@@ -182,6 +182,15 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
           <Divider orientation="horizontal" />
         </Fragment>
       )}
+      {error && (
+        <Fragment>
+          <div className="flex flex-row c-danger t-small justify-center items-center mt7 mb7 ph7">
+            <img src={IconWarning} alt="Warning" />
+            <span>{error}</span>
+          </div>
+          <Divider orientation="horizontal" />
+        </Fragment>
+      )}
       <div {...getRootProps()}>
         {isLoading ? (
           <div>
@@ -231,13 +240,6 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
           </div>
         )}
       </div>
-
-      {error && (
-        <div className="flex flex-row c-danger t-small justify-center items-center mt5">
-          <IconClose />
-          <span>{error}</span>
-        </div>
-      )}
     </div>
   )
 }

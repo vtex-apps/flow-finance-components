@@ -1,7 +1,12 @@
 import useProduct from 'vtex.product-context/useProduct'
 
 import React, { useState, useEffect } from 'react'
-import { FormattedMessage, defineMessages } from 'react-intl'
+import {
+  FormattedMessage,
+  defineMessages,
+  injectIntl,
+  WrappedComponentProps,
+} from 'react-intl'
 import { useQuery } from 'react-apollo'
 import { ButtonPlain, Modal } from 'vtex.styleguide'
 import { useCssHandles } from 'vtex.css-handles'
@@ -21,15 +26,13 @@ const CSS_HANDLES = [
   'promoMessageSmallText',
 ] as const
 
-const FlowFinancePromo: StorefrontFunctionComponent<PromoProps> = ({
-  interestRate,
-  installments,
-}) => {
+const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
+  WrappedComponentProps> = ({ interestRate, installments, intl }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showLink, setShowLink] = useState(false)
   const handles = useCssHandles(CSS_HANDLES)
   const { product, selectedItem } = useProduct()
-  const { data } = useQuery(Profile)
+  const { data, refetch } = useQuery(Profile)
 
   async function postData(url = '', dataToPost = {}) {
     const response = await fetch(url, {
@@ -79,16 +82,34 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps> = ({
         (1 + itemInterestRate) ** itemInstallments *
         itemInterestRate) /
       ((1 + itemInterestRate) ** itemInstallments - 1)
-    return pricePerInstallment.toFixed(2)
+    return intl.formatNumber(pricePerInstallment, {
+      style: 'currency',
+      currency: 'BRL',
+    })
   }
 
   async function handleModalToggle() {
+    setShowLink(false)
     setIsModalOpen(!isModalOpen)
+    refetch().then((result: any) => {
+      if (result?.data?.profile) {
+        postData(`/_v/api/connectors/flow-finance/get-loan-options`, {
+          email: result.data.profile.email,
+          total: 1000,
+        }).then(response => {
+          if (
+            response.accountStatus === 'none' ||
+            response.accountStatus === 'pending'
+          )
+            setShowLink(true)
+        })
+      }
+    })
   }
 
   return (
     <div className={`${handles.promoMessageContainer} mt6 mb6`}>
-      <div className={`${handles.promoMessageMainText}`}>
+      <span className={`${handles.promoMessageMainText}`}>
         <FormattedMessage
           id="store/flowFinance.productPromo.promoMessage"
           values={{
@@ -100,7 +121,7 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps> = ({
             ),
           }}
         />
-      </div>
+      </span>{' '}
       {showLink && (
         <ButtonPlain
           onClick={handleModalToggle}
@@ -112,7 +133,11 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps> = ({
       <div className={`${handles.promoMessageSmallText} t-mini`}>
         <FormattedMessage id="store/flowFinance.productPromo.promoMessageSmallText" />
       </div>
-      <Modal isOpen={isModalOpen} onClose={handleModalToggle}>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleModalToggle}
+        closeOnOverlayClick={false}
+      >
         <AccountCreate handleExit={handleModalToggle} />
       </Modal>
     </div>
@@ -162,4 +187,4 @@ FlowFinancePromo.defaultProps = {
   installments: 12,
 }
 
-export default FlowFinancePromo
+export default injectIntl(FlowFinancePromo)

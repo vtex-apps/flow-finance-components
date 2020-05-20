@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.3] - 2020-05-20
+
+### Fixed
+
+- `address-form` validation is now done per field rather than all fields at once
+- Account signup form modal does not close if user clicks outside of it
+
+### Changed
+
+- Various layout and message adjustments requested by Gympass
+- Documentation
+
 ## [0.0.2] - 2020-05-11
 
 ### Fixed

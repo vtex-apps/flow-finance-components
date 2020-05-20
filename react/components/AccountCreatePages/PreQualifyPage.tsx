@@ -79,6 +79,13 @@ const PreQualifyPage: StorefrontFunctionComponent<PreQualifyProps &
           value: data.profile.email,
         },
       })
+      dispatch({
+        type: 'SET_PERSONAL_FIELD',
+        args: {
+          field: 'email',
+          value: data.profile.email,
+        },
+      })
       if (data.profile.corporateName) {
         dispatch({
           type: 'SET_BUSINESS_FIELD',
@@ -157,6 +164,7 @@ const PreQualifyPage: StorefrontFunctionComponent<PreQualifyProps &
             id="store/flowFinance.accountCreate.preQualify.notQualifiedMessage"
             values={{
               storePaymentName: settings.storePaymentName,
+              lineBreak: <br />,
             }}
           />
         </div>
@@ -195,8 +203,8 @@ const PreQualifyPage: StorefrontFunctionComponent<PreQualifyProps &
                 value: newValue,
               },
             })
-            setShowError(true)
           }}
+          onBlur={() => setShowError(true)}
           errorMessage={
             showError && businessInformation.businessId.length !== 14
               ? intl.formatMessage(messages.cnpjError)
