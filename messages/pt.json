@@ -34,7 +34,7 @@
   "store/flowFinance.accountCreate.rgExpLabel": "Expiração de RG (DD/MM/YYYY)",
   "store/flowFinance.accountCreate.rgExpError": "Campo obrigatório.",
   "store/flowFinance.accountCreate.personalPhoneLabel": "Telefone",
-  "store/flowFinance.accountCreate.personalPhoneError": "Campo obrigatório.",
+  "store/flowFinance.accountCreate.personalPhoneError": "Por favor insira um número de telefone válido.",
   "store/flowFinance.accountCreate.pepLabel": "PEP (Pessoa Politicamente Exposta)",
   "store/flowFinance.accountCreate.pepText": "Conforme conceito definido na",
   "store/flowFinance.accountCreate.pepLinkText": "ICVM 301/99",

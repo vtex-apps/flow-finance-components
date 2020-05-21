@@ -401,7 +401,8 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
             onBlur={() => setShowPhoneError(true)}
             errorMessage={
               (showErrors || showPhoneError) &&
-              personalInformation.phoneNumber.length < 10
+              (personalInformation.phoneNumber.length < 10 ||
+                personalInformation.phoneNumber.length > 11)
                 ? intl.formatMessage(messages.phoneNumberError)
                 : ''
             }

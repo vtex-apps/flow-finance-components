@@ -60,77 +60,86 @@ const PreQualifyPage: StorefrontFunctionComponent<PreQualifyProps &
   const [checkPreQualify] = useMutation(PreQualify)
 
   useEffect(() => {
-    if (data?.profile) {
-      if (data.profile.corporateDocument) {
-        dispatch({
-          type: 'SET_BUSINESS_FIELD',
-          args: {
-            field: 'businessId',
-            value: data.profile.corporateDocument,
-          },
-        })
-        setFormattedCNPJ(formatCNPJ(data.profile.corporateDocument))
-        setShowError(true)
-      }
+    if (!data?.profile) return
+    if (data.profile.corporateDocument) {
+      const cleanDocument = data.profile.corporateDocument.replace(/[^\d]/g, '')
       dispatch({
         type: 'SET_BUSINESS_FIELD',
         args: {
-          field: 'email',
-          value: data.profile.email,
+          field: 'businessId',
+          value: cleanDocument,
         },
       })
+      setFormattedCNPJ(formatCNPJ(cleanDocument))
+      setShowError(true)
+    }
+    dispatch({
+      type: 'SET_BUSINESS_FIELD',
+      args: {
+        field: 'email',
+        value: data.profile.email,
+      },
+    })
+    dispatch({
+      type: 'SET_PERSONAL_FIELD',
+      args: {
+        field: 'email',
+        value: data.profile.email,
+      },
+    })
+    if (data.profile.corporateName) {
+      dispatch({
+        type: 'SET_BUSINESS_FIELD',
+        args: {
+          field: 'name',
+          value: data.profile.corporateName,
+        },
+      })
+    }
+    if (data.profile.tradeName) {
+      dispatch({
+        type: 'SET_BUSINESS_FIELD',
+        args: {
+          field: 'legalName',
+          value: data.profile.tradeName,
+        },
+      })
+    }
+    if (data.profile.businessPhone) {
+      dispatch({
+        type: 'SET_BUSINESS_FIELD',
+        args: {
+          field: 'phoneNumber',
+          value: data.profile.businessPhone.replace('+55', ''),
+        },
+      })
+    }
+    if (data.profile.firstName) {
       dispatch({
         type: 'SET_PERSONAL_FIELD',
         args: {
-          field: 'email',
-          value: data.profile.email,
+          field: 'firstName',
+          value: data.profile.firstName,
         },
       })
-      if (data.profile.corporateName) {
-        dispatch({
-          type: 'SET_BUSINESS_FIELD',
-          args: {
-            field: 'name',
-            value: data.profile.corporateName,
-          },
-        })
-      }
-      if (data.profile.businessPhone) {
-        dispatch({
-          type: 'SET_BUSINESS_FIELD',
-          args: {
-            field: 'phoneNumber',
-            value: data.profile.businessPhone,
-          },
-        })
-      }
-      if (data.profile.firstName) {
-        dispatch({
-          type: 'SET_PERSONAL_FIELD',
-          args: {
-            field: 'firstName',
-            value: data.profile.firstName,
-          },
-        })
-      }
-      if (data.profile.lastName) {
-        dispatch({
-          type: 'SET_PERSONAL_FIELD',
-          args: {
-            field: 'lastName',
-            value: data.profile.lastName,
-          },
-        })
-      }
-      if (data.profile.homePhone) {
-        dispatch({
-          type: 'SET_PERSONAL_FIELD',
-          args: {
-            field: 'phoneNumber',
-            value: data.profile.homePhone,
-          },
-        })
-      }
+    }
+    if (data.profile.lastName) {
+      dispatch({
+        type: 'SET_PERSONAL_FIELD',
+        args: {
+          field: 'lastName',
+          value: data.profile.lastName,
+        },
+      })
+    }
+    if (data.profile.homePhone) {
+      dispatch({
+        type: 'SET_PERSONAL_FIELD',
+        args: {
+          field: 'phoneNumber',
+          value: data.profile.homePhone.replace('+55', ''),
+        },
+      })
     }
   }, [data, dispatch])
 

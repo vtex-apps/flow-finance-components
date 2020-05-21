@@ -9,6 +9,7 @@ query Profile {
     homePhone
     businessPhone
     corporateName
+    tradeName
     corporateDocument
     stateRegistration
   }
