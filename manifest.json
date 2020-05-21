@@ -1,7 +1,7 @@
 {
   "vendor": "vtex",
   "name": "flow-finance-components",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "title": "Flow Finance Components",
   "description": "Front end components for Flow Finance payment system",
   "defaultLocale": "pt-BR",

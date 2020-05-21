@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.5] - 2020-05-21
+
+## Fixed
+
+- PDP promo message: Show link if account status is "pending"
+
 ## [0.0.4] - 2020-05-21
 
 ## Fixed

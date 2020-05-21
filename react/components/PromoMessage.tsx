@@ -60,7 +60,11 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
         email: data.profile.email,
         total: 1000,
       }).then(response => {
-        if (response.accountStatus === 'none') setShowLink(true)
+        if (
+          response.accountStatus === 'none' ||
+          response.accountStatus === 'pending'
+        )
+          setShowLink(true)
       })
     }
   }, [data])
