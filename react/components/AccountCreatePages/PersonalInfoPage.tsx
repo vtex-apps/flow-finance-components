@@ -216,26 +216,7 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
     }
   }, [personalInfoValid, personalInformation, address, rules, dispatch])
 
-  async function handleAddressChange(newAddress: AddressFormFields) {
-    const curAddress = address
-    const combinedAddress = { ...curAddress, ...newAddress }
-    setAddress(combinedAddress)
-  }
-
-  async function handleAddressFieldChange(newAddress: AddressFormFields) {
-    const curAddress = address
-    const validatedField = validateAddress(newAddress, rules)
-    const combinedAddress = { ...curAddress, ...validatedField }
-    setAddress(combinedAddress)
-  }
-
-  async function handleShowErrors() {
-    const validatedAddress = validateAddress(address, rules)
-    setAddress(validatedAddress)
-    setShowErrors(true)
-  }
-
-  async function handleContinueClick() {
+  async function storeAddress() {
     const validAddress = {
       addressId: '',
       addressType: 'residential',
@@ -257,6 +238,30 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
         address: validAddress,
       },
     })
+  }
+
+  async function handleAddressChange(newAddress: AddressFormFields) {
+    const curAddress = address
+    const combinedAddress = { ...curAddress, ...newAddress }
+    setAddress(combinedAddress)
+    storeAddress()
+  }
+
+  async function handleAddressFieldChange(newAddress: AddressFormFields) {
+    const curAddress = address
+    const validatedField = validateAddress(newAddress, rules)
+    const combinedAddress = { ...curAddress, ...validatedField }
+    setAddress(combinedAddress)
+    storeAddress()
+  }
+
+  async function handleShowErrors() {
+    const validatedAddress = validateAddress(address, rules)
+    setAddress(validatedAddress)
+    setShowErrors(true)
+  }
+
+  async function handleContinueClick() {
     dispatch({
       type: 'SET_PERSONAL_INFO_COMPLETE',
       args: {
