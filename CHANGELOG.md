@@ -7,25 +7,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.7] - 2020-05-27
+
+### Changed
+
+- Address field validation behavior
+
 ## [0.0.6] - 2020-05-26
 
-## Changed
+### Changed
 
 - Message adjustments per Gympass
 
-## Fixed
+### Fixed
 
 - Partial personal address is stored in state, in case user goes back to Business Info page and then returns to Personal Info page.
 
 ## [0.0.5] - 2020-05-21
 
-## Fixed
+### Fixed
 
 - PDP promo message: Show link if account status is "pending"
 
 ## [0.0.4] - 2020-05-21
 
-## Fixed
+### Fixed
 
 - Account signup form: Personal phone number error message now appears if phone number is too long.
 - Account signup form: Phone numbers loaded from user profile will have `+55` country code automatically removed.

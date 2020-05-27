@@ -142,8 +142,11 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   }
 
   async function handleAddressFieldChange(newAddress: AddressFormFields) {
+    const [key] = Object.keys(newAddress)
     const curAddress = address
-    const validatedField = validateAddress(newAddress, rules)
+    const validatedField = newAddress[key].value
+      ? validateAddress(newAddress, rules)
+      : newAddress
     const combinedAddress = { ...curAddress, ...validatedField }
     setAddress(combinedAddress)
   }
