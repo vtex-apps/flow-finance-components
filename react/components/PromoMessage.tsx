@@ -30,6 +30,7 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
   WrappedComponentProps> = ({ interestRate, installments, intl }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showLink, setShowLink] = useState(false)
+  const [showPromo, setShowPromo] = useState(false)
   const handles = useCssHandles(CSS_HANDLES)
   const { product, selectedItem } = useProduct()
   const { data, refetch } = useQuery(Profile)
@@ -60,6 +61,9 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
         email: data.profile.email,
         total: 1000,
       }).then(response => {
+        if (response.accountStatus !== 'rejected') {
+          setShowPromo(true)
+        }
         if (
           response.accountStatus === 'none' ||
           response.accountStatus === 'pending'
@@ -101,6 +105,9 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
           email: result.data.profile.email,
           total: 1000,
         }).then(response => {
+          if (response.accountStatus !== 'rejected') {
+            setShowPromo(true)
+          }
           if (
             response.accountStatus === 'none' ||
             response.accountStatus === 'pending'
@@ -111,41 +118,44 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
     })
   }
 
-  return (
-    <div className={`${handles.promoMessageContainer} mt6 mb6`}>
-      <span className={`${handles.promoMessageMainText}`}>
-        <FormattedMessage
-          id="store/flowFinance.productPromo.promoMessage"
-          values={{
-            installments,
-            pricePerInstallment: calculateInstallments(
-              price,
-              interestRate,
-              installments
-            ),
-          }}
-        />
-      </span>{' '}
-      {showLink && (
-        <ButtonPlain
-          onClick={handleModalToggle}
-          className={`${handles.promoMessageLink}`}
+  if (showPromo)
+    return (
+      <div className={`${handles.promoMessageContainer} mt6 mb6`}>
+        <span className={`${handles.promoMessageMainText}`}>
+          <FormattedMessage
+            id="store/flowFinance.productPromo.promoMessage"
+            values={{
+              installments,
+              pricePerInstallment: calculateInstallments(
+                price,
+                interestRate,
+                installments
+              ),
+            }}
+          />
+        </span>{' '}
+        {showLink && (
+          <ButtonPlain
+            onClick={handleModalToggle}
+            className={`${handles.promoMessageLink}`}
+          >
+            <FormattedMessage id="store/flowFinance.productPromo.promoMessageLinkText" />
+          </ButtonPlain>
+        )}
+        <div className={`${handles.promoMessageSmallText} t-mini`}>
+          <FormattedMessage id="store/flowFinance.productPromo.promoMessageSmallText" />
+        </div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleModalToggle}
+          closeOnOverlayClick={false}
         >
-          <FormattedMessage id="store/flowFinance.productPromo.promoMessageLinkText" />
-        </ButtonPlain>
-      )}
-      <div className={`${handles.promoMessageSmallText} t-mini`}>
-        <FormattedMessage id="store/flowFinance.productPromo.promoMessageSmallText" />
+          <AccountCreate handleExit={handleModalToggle} />
+        </Modal>
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleModalToggle}
-        closeOnOverlayClick={false}
-      >
-        <AccountCreate handleExit={handleModalToggle} />
-      </Modal>
-    </div>
-  )
+    )
+
+  return null
 }
 
 const messages = defineMessages({

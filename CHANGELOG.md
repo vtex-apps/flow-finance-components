@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.8] - 2020-05-28
+
+### Changed
+
+- Completely hide PromoMessage component if shopper's account status is "rejected"
+
 ## [0.0.7] - 2020-05-27
 
 ### Changed
