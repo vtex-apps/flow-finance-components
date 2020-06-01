@@ -1,13 +1,8 @@
 import React, { useState, Fragment } from 'react'
 import { useIntl, defineMessages, FormattedMessage } from 'react-intl'
 import { useDropzone } from 'react-dropzone'
-import {
-  Button,
-  ButtonWithIcon,
-  IconDelete,
-  Spinner,
-  Divider,
-} from 'vtex.styleguide'
+import { ButtonWithIcon, IconDelete, Spinner, Divider } from 'vtex.styleguide'
+import { useCssHandles } from 'vtex.css-handles'
 
 import {
   useAccountCreateState,
@@ -44,6 +39,24 @@ const messages = defineMessages({
   },
 })
 
+const CSS_HANDLES = [
+  'dropzoneContainer',
+  'dropzoneRadioOptions',
+  'dropzoneRadioOption',
+  'dropzoneRadioOptionInput',
+  'dropzoneRadioLabelText',
+  'dropzoneErrorContainer',
+  'dropzoneErrorIcon',
+  'dropzoneErrorText',
+  'dropzoneFilenameContainer',
+  'dropzoneFilenameText',
+  'dropzoneUploadContainer',
+  'dropzoneUploadIcon',
+  'dropzoneUploadInstructions',
+  'dropzoneUploadButton',
+  'dropzoneUploadButtonText',
+] as const
+
 const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
   maxSize,
   documentType,
@@ -53,6 +66,7 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
   const [error, setError] = useState<string | null>()
   const { businessInformation, personalInformation } = useAccountCreateState()
   const dispatch = useAccountCreateDispatch()
+  const handles = useCssHandles(CSS_HANDLES)
 
   function getBase64(file: File) {
     return new Promise((resolve, reject) => {
@@ -150,11 +164,13 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
   }
 
   return (
-    <div className="pa7 br3 b--dashed b--muted-4 bw2 tc mb7">
+    <div
+      className={`${handles.dropzoneContainer} pa7 br3 b--dashed b--muted-4 bw2 tc mb7`}
+    >
       {documentType === 'personal' && (
         <Fragment>
-          <div className="mb5">
-            <label className="pa4">
+          <div className={`${handles.dropzoneRadioOptions} mb5`}>
+            <label className={`${handles.dropzoneRadioOption} pa4`}>
               <input
                 type="radio"
                 name="document"
@@ -162,11 +178,14 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
                 value="CNH"
                 id="cnh"
                 onChange={() => handlePersonalDocTypeChange('CNH')}
+                className={`${handles.dropzoneRadioOptionInput}`}
               />
               {` `}
-              {intl.formatMessage(messages.cnhLabel)}
+              <span className={`${handles.dropzoneRadioLabelText}`}>
+                {intl.formatMessage(messages.cnhLabel)}
+              </span>
             </label>
-            <label className="pa4">
+            <label className={`${handles.dropzoneRadioOption} pa4`}>
               <input
                 type="radio"
                 name="document"
@@ -174,9 +193,12 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
                 value="RG"
                 id="rg"
                 onChange={() => handlePersonalDocTypeChange('RG')}
+                className={`${handles.dropzoneRadioOptionInput}`}
               />
               {` `}
-              {intl.formatMessage(messages.rgLabel)}
+              <span className={`${handles.dropzoneRadioLabelText}`}>
+                {intl.formatMessage(messages.rgLabel)}
+              </span>
             </label>
           </div>
           <Divider orientation="horizontal" />
@@ -184,9 +206,15 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
       )}
       {error && (
         <Fragment>
-          <div className="flex flex-row c-danger t-small justify-center items-center mt7 mb7 ph7">
-            <img src={IconWarning} alt="Warning" />
-            <span>{error}</span>
+          <div
+            className={`${handles.dropzoneErrorContainer} flex flex-row c-danger t-small justify-center items-center mt7 mb7 ph7`}
+          >
+            <img
+              className={`${handles.dropzoneErrorIcon}`}
+              src={IconWarning}
+              alt="Warning"
+            />
+            <span className={`${handles.dropzoneErrorText}`}>{error}</span>
           </div>
           <Divider orientation="horizontal" />
         </Fragment>
@@ -200,8 +228,10 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
             businessInformation.physicalDocFileName) ||
           (documentType === 'personal' &&
             personalInformation.physicalDocFileName) ? (
-          <div className="black-70 flex flex-row justify-between items-center">
-            <span>
+          <div
+            className={`${handles.dropzoneFilenameContainer} black-70 flex flex-row justify-between items-center`}
+          >
+            <span className={`${handles.dropzoneFilenameText}`}>
               {documentType === 'business' &&
                 businessInformation.physicalDocFileName}
               {documentType === 'personal' &&
@@ -214,10 +244,14 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
             />
           </div>
         ) : (
-          <div className="pt7 pb7">
+          <div className={`${handles.dropzoneUploadContainer} pt7 pb7`}>
             <input {...getInputProps()} />
-            <img src={IconUpload} alt="Upload Icon" />
-            <div className="ma3">
+            <img
+              className={`${handles.dropzoneUploadIcon}`}
+              src={IconUpload}
+              alt="Upload Icon"
+            />
+            <div className={`${handles.dropzoneUploadInstructions} ma3`}>
               <FormattedMessage
                 id="store/flowFinance.accountCreate.documents.uploadInstructions"
                 values={{
@@ -225,9 +259,17 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
                 }}
               />
             </div>
-            <Button size="small">
-              {intl.formatMessage(messages.selectFileBtn)}
-            </Button>
+            <button
+              className={`${handles.dropzoneUploadButton} vtex-button bw1 ba fw5 v-mid relative pa0 lh-solid br2 min-h-small t-action--small bg-action-primary b--action-primary c-on-action-primary hover-bg-action-primary hover-b--action-primary hover-c-on-action-primary pointer`}
+              type="button"
+            >
+              <div
+                className={`${handles.dropzoneUploadButtonText} vtex-button__label flex items-center justify-center h-100 ph5`}
+                style={{ paddingTop: '.25em', paddingBottom: '.32em' }}
+              >
+                {intl.formatMessage(messages.selectFileBtn)}
+              </div>
+            </button>
             <div className="t-mini mt3">
               <FormattedMessage
                 id="store/flowFinance.accountCreate.documents.fileRestrictions"

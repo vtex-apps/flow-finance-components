@@ -40,6 +40,7 @@ In order to apply CSS customizations in this and other blocks, follow the instru
 | `promoMessageContainer`       |
 | `promoMessageMainText`        |
 | `promoMessageLink`            |
+| `promoMessageLinkText`        |
 | `promoMessageSmallText`       |
 
 | Account Sign-up CSS Handles        |
@@ -61,10 +62,30 @@ In order to apply CSS customizations in this and other blocks, follow the instru
 | `documentsPageInstructions`        |
 | `documentTypesContainer`           |
 | `documentTypeContainer`            |
-| `tosAcceptanceContainer`           |
-| `tosIframeContainer`               |
+| `documentTypeIcon`                 |
+| `documentTypeLabel`                |
+| `documentFilenameContainer`        |
+| `documentFilenameText`             |
+| `documentRemoveButton`             |
+| `documentUploadButton`             |
+| `documentUploadButtonText`         |
 | `documentsPageButtonContainer`     |
 | `documentsPageErrorContainer`      |
+| `dropzoneContainer`                |
+| `dropzoneRadioOptions`             |
+| `dropzoneRadioOption`              |
+| `dropzoneRadioOptionInput`         |
+| `dropzoneRadioLabelText`           |
+| `dropzoneErrorContainer`           |
+| `dropzoneErrorIcon`                |
+| `dropzoneErrorText`                |
+| `dropzoneFilenameContainer`        |
+| `dropzoneFilenameText`             |
+| `dropzoneUploadContainer`          |
+| `dropzoneUploadIcon`               |
+| `dropzoneUploadInstructions`       |
+| `dropzoneUploadButton`             |
+| `dropzoneUploadButtonText`         |
 | `introPageContainer`               |
 | `introPageInstructions`            |
 | `introPageTitle`                   |
@@ -78,13 +99,13 @@ In order to apply CSS customizations in this and other blocks, follow the instru
 | `introPageRightIconTitle`          |
 | `introPageRightIconText`           |
 | `introPageButtonContainer`         |
-| `poweredByContainer`               |
 | `personalInfoPageContainer`        |
 | `personalInfoInstructions`         |
 | `personalInfoSection`              |
 | `personalContactSection`           |
 | `personalAddressSection`           |
 | `personalInfoPageButtonContainer`  |
+| `poweredByContainer`               |
 | `preQualifyPageContainer`          |
 | `preQualifyInstructions`           |
 | `preQualifySection`                |
@@ -93,3 +114,7 @@ In order to apply CSS customizations in this and other blocks, follow the instru
 | `successPageTitle`                 |
 | `successPageMessage`               |
 | `successPageButtonContainer`       |
+| `tosAcceptanceContainer`           |
+| `tosAcceptanceCheckbox`            |
+| `tosAcceptanceCheckboxLabel`       |
+| `tosIframeContainer`               |

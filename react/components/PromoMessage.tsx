@@ -23,6 +23,7 @@ const CSS_HANDLES = [
   'promoMessageContainer',
   'promoMessageMainText',
   'promoMessageLink',
+  'promoMessageLinkText',
   'promoMessageSmallText',
 ] as const
 
@@ -139,7 +140,9 @@ const FlowFinancePromo: StorefrontFunctionComponent<PromoProps &
             onClick={handleModalToggle}
             className={`${handles.promoMessageLink}`}
           >
-            <FormattedMessage id="store/flowFinance.productPromo.promoMessageLinkText" />
+            <span className={`${handles.promoMessageLinkText}`}>
+              <FormattedMessage id="store/flowFinance.productPromo.promoMessageLinkText" />
+            </span>
           </ButtonPlain>
         )}
         <div className={`${handles.promoMessageSmallText} t-mini`}>

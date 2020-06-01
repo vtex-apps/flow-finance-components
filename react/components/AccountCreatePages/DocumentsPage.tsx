@@ -40,8 +40,17 @@ const CSS_HANDLES = [
   'documentsPageInstructions',
   'documentTypesContainer',
   'documentTypeContainer',
+  'documentTypeIcon',
+  'documentTypeLabel',
+  'documentFilenameContainer',
+  'documentFilenameText',
+  'documentRemoveButton',
+  'documentUploadButton',
+  'documentUploadButtonText',
   'tosAcceptanceContainer',
   'tosIframeContainer',
+  'tosAcceptanceCheckbox',
+  'tosAcceptanceCheckboxLabel',
   'documentsPageButtonContainer',
   'documentsPageErrorContainer',
 ] as const
@@ -293,30 +302,42 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
                     : IconId
                 }
                 alt="ID Icon"
+                className={`${handles.documentTypeIcon}`}
               />
               <div
-                className={`ma3 ${
+                className={`${handles.documentTypeLabel} ma3 ${
                   personalInformation.physicalDocValue === '' ? 'c-muted-4' : ''
                 }`}
               >
                 <FormattedMessage id="store/flowFinance.accountCreate.documents.personalIdLabel" />
               </div>
               {personalInformation.physicalDocFileName !== '' ? (
-                <div className="ma3 flex flex-row justify-center items-center">
-                  <span>{personalInformation.physicalDocFileName}</span>
+                <div
+                  className={`${handles.documentFilenameContainer} ma3 flex flex-row justify-center items-center`}
+                >
+                  <span className={`${handles.documentFilenameText}`}>
+                    {personalInformation.physicalDocFileName}
+                  </span>
                   <ButtonWithIcon
                     onClick={() => handleRemoveFile('personal')}
                     variation="tertiary"
                     icon={<IconDelete />}
+                    className={`${handles.documentRemoveButton}`}
                   />
                 </div>
               ) : (
-                <Button
-                  variation="secondary"
+                <button
                   onClick={() => handlePageModeChange('personal')}
+                  className={`${handles.documentUploadButton} vtex-button bw1 ba fw5 v-mid relative pa0 lh-solid br2 min-h-regular t-action bg-action-secondary b--action-secondary c-on-action-secondary hover-bg-action-secondary hover-b--action-secondary hover-c-on-action-secondary pointer`}
+                  type="button"
                 >
-                  <FormattedMessage id="store/flowFinance.accountCreate.documents.uploadLabel" />
-                </Button>
+                  <div
+                    className={`${handles.documentUploadButtonText} vtex-button__label flex items-center justify-center h-100 ph6`}
+                    style={{ paddingTop: '0.25em', paddingBottom: '0.32em' }}
+                  >
+                    <FormattedMessage id="store/flowFinance.accountCreate.documents.uploadLabel" />
+                  </div>
+                </button>
               )}
             </div>
             <div className={`${handles.documentTypeContainer} w-50 pa2 tc`}>
@@ -327,29 +348,38 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
                     : IconContrato
                 }
                 alt="ID Icon"
+                className={`${handles.documentTypeIcon}`}
               />
               <div
-                className={`ma3 ${
+                className={`${handles.documentTypeLabel} ma3 ${
                   businessInformation.physicalDocValue === '' ? 'c-muted-4' : ''
                 }`}
               >
                 <FormattedMessage id="store/flowFinance.accountCreate.documents.businessIdLabel" />
               </div>
               {businessInformation.physicalDocFileName !== '' ? (
-                <div className="ma3 flex flex-row justify-center items-center">
-                  <span>{businessInformation.physicalDocFileName}</span>
+                <div
+                  className={`${handles.documentFilenameContainer} ma3 flex flex-row justify-center items-center`}
+                >
+                  <span className={`${handles.documentFilenameText}`}>
+                    {businessInformation.physicalDocFileName}
+                  </span>
                   <ButtonWithIcon
                     onClick={() => handleRemoveFile('business')}
                     variation="tertiary"
                     icon={<IconDelete />}
+                    className={`${handles.documentRemoveButton}`}
                   />
                 </div>
               ) : (
                 <Button
                   variation="secondary"
                   onClick={() => handlePageModeChange('business')}
+                  className={`${handles.documentUploadButton}`}
                 >
-                  <FormattedMessage id="store/flowFinance.accountCreate.documents.uploadLabel" />
+                  <span className={`${handles.documentUploadButtonText}`}>
+                    <FormattedMessage id="store/flowFinance.accountCreate.documents.uploadLabel" />
+                  </span>
                 </Button>
               )}
             </div>
@@ -374,11 +404,11 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
               </div>
               <Checkbox
                 label={
-                  <span>
+                  <span className={`${handles.tosAcceptanceCheckboxLabel}`}>
                     <FormattedMessage id="store/flowFinance.accountCreate.tosCheckboxLabel" />
                   </span>
                 }
-                className="mt4"
+                className={`${handles.tosAcceptanceCheckbox} mt4`}
                 checked={tosAccepted}
                 id="tos-accept"
                 name="tos-accept"
