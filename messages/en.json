@@ -72,7 +72,7 @@
   "store/flowFinance.accountCreate.steps.documents": "Documentos",
   "store/flowFinance.productPromo.promoMessage": "Pague em até {installments}x de {pricePerInstallment}*",
   "store/flowFinance.productPromo.promoMessageLinkText": "Peça seu crédito agora",
-  "store/flowFinance.productPromo.promoMessageSmallText": "* Parcela calculada com a taxa mínima de 2% a.m., sem incluir o imposto sobre operações financeiras (IOF)",
+  "store/flowFinance.productPromo.promoMessageSmallText": "* Parcela simulada com juros. As condições estão sujeitas a análise de crédito.",
   "admin/editor.flowFinance.promoMessageBlock.title": "Flow Finance Promo Message",
   "admin/editor.flowFinance.promoMessageBlock.description": "On product page, shows a promo with installments pricing and account signup link",
   "admin/editor.promoMessageBlock.interestRate.title": "Interest rate (1.5% = 0.015)",

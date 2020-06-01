@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.10] - 2020-06-01
+
+### Changed
+
+- Default installments for PDP promo message calculation is now 24 instead of 12
+- PDP promo message wording changed
+
 ## [0.0.9] - 2020-06-01
 
 ### Added

@@ -195,13 +195,13 @@ FlowFinancePromo.schema = {
       title: messages.installmentsTitle.id,
       type: 'number',
       isLayout: false,
-      default: 12,
+      default: 24,
     },
   },
 }
 FlowFinancePromo.defaultProps = {
   interestRate: 0.0149,
-  installments: 12,
+  installments: 24,
 }
 
 export default injectIntl(FlowFinancePromo)
