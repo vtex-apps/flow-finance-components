@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.11] - 2020-06-02
+
+### Fixed
+
+- Validation error for phone number only appears after user leaves field
+
 ## [0.0.10] - 2020-06-01
 
 ### Changed

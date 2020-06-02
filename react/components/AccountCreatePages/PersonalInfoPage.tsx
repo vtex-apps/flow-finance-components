@@ -189,6 +189,11 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   const [address, setAddress] = useState(addressWithValidation)
 
   useEffect(() => {
+    if (personalInformation.phoneNumber) setShowPhoneError(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
     if (
       personalInformation.phoneNumber.length >= 10 &&
       personalInformation.phoneNumber.length <= 11 &&

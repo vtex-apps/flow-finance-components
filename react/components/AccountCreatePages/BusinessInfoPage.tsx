@@ -109,7 +109,8 @@ const BusinessInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
 
   useEffect(() => {
     if (businessInformation.phoneNumber) setShowPhoneError(true)
-  }, [businessInformation.phoneNumber])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     if (
