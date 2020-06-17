@@ -77,7 +77,7 @@ const IntroPage: StorefrontFunctionComponent<Props> = ({
         email: data.profile.email,
         total: 1000,
       }).then(response => {
-        setAccountStatus('approved' || response.accountStatus)
+        setAccountStatus(response.accountStatus)
       })
     }
   }, [data])
