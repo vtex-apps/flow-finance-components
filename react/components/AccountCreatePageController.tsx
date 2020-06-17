@@ -13,8 +13,9 @@ import DocumentsPage from './AccountCreatePages/DocumentsPage'
 import SuccessPage from './AccountCreatePages/SuccessPage'
 import AppSettings from '../graphql/AppSettings.graphql'
 
-interface ExitProps {
+interface Props {
   handleExit: () => void
+  checkAccount: boolean
 }
 
 interface Settings {
@@ -23,8 +24,9 @@ interface Settings {
   tosPdfPath: string
 }
 
-const AccountCreatePageController: StorefrontFunctionComponent<ExitProps> = ({
+const AccountCreatePageController: StorefrontFunctionComponent<Props> = ({
   handleExit,
+  checkAccount,
 }) => {
   const { currentPage } = useAccountCreateState()
   const { data } = useQuery(AppSettings, { ssr: false })
@@ -35,7 +37,9 @@ const AccountCreatePageController: StorefrontFunctionComponent<ExitProps> = ({
 
   return (
     <AddressRules country="BRA" shouldUseIOFetching useGeolocation={false}>
-      {currentPage === 1 && <IntroPage settings={settings} />}
+      {currentPage === 1 && (
+        <IntroPage settings={settings} checkAccount={checkAccount} />
+      )}
       {currentPage === 2 && (
         <PreQualifyPage settings={settings} handleExit={handleExit} />
       )}

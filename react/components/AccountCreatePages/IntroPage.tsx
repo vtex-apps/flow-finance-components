@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { useQuery } from 'react-apollo'
 import { useCssHandles } from 'vtex.css-handles'
 import { Button, Divider } from 'vtex.styleguide'
 
@@ -10,9 +11,11 @@ import {
 import IconMouse from '../../images/mouse.svg'
 import IconCart from '../../images/cart.svg'
 import FlowFinanceLogo from '../../images/flow-finance-logo.png'
+import Profile from '../../graphql/Profile.graphql'
 
-interface SettingsProps {
+interface Props {
   settings: Settings
+  checkAccount: boolean
 }
 
 interface Settings {
@@ -34,15 +37,50 @@ const CSS_HANDLES = [
   'introPageRightIconTitle',
   'introPageRightIconText',
   `introPageButtonContainer`,
+  'introPageAccountErrorContainer',
   `poweredByContainer`,
 ] as const
 
-const IntroPage: StorefrontFunctionComponent<SettingsProps> = ({
+const IntroPage: StorefrontFunctionComponent<Props> = ({
   settings,
+  checkAccount,
 }) => {
   const { currentPage } = useAccountCreateState()
   const dispatch = useAccountCreateDispatch()
+  const [accountStatus, setAccountStatus] = useState('none')
   const handles = useCssHandles(CSS_HANDLES)
+  const { data } = useQuery(Profile, { skip: !checkAccount })
+
+  async function postData(url = '', dataToPost = {}) {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(dataToPost),
+    })
+    if (!response.ok) {
+      console.error(response)
+      return response
+    }
+    return response.json()
+  }
+
+  useEffect(() => {
+    if (data?.profile) {
+      postData(`/_v/api/connectors/flow-finance/get-loan-options`, {
+        email: data.profile.email,
+        total: 1000,
+      }).then(response => {
+        setAccountStatus('approved' || response.accountStatus)
+      })
+    }
+  }, [data])
 
   return (
     <div className={handles.introPageContainer}>
@@ -96,25 +134,45 @@ const IntroPage: StorefrontFunctionComponent<SettingsProps> = ({
       <div
         className={`${handles.introPageButtonContainer} mt6 flex flex-row justify-between`}
       >
-        <Button
-          variation="primary"
-          onClick={() => {
-            dispatch({
-              type: 'SET_CURRENT_PAGE',
-              args: {
-                page: currentPage + 1,
-              },
-            })
-            window.scrollTo(0, 0)
-          }}
-        >
-          <FormattedMessage id="store/flowFinance.accountCreate.introPage.continue" />
-        </Button>
+        <div>
+          <Button
+            variation="primary"
+            onClick={() => {
+              dispatch({
+                type: 'SET_CURRENT_PAGE',
+                args: {
+                  page: currentPage + 1,
+                },
+              })
+              window.scrollTo(0, 0)
+            }}
+            disabled={accountStatus !== 'none' && accountStatus !== 'pending'}
+          >
+            <FormattedMessage id="store/flowFinance.accountCreate.introPage.continue" />
+          </Button>
+          <div
+            className={`${handles.introPageAccountErrorContainer} mt2 red mw6`}
+          >
+            {accountStatus === 'under-review' && (
+              <FormattedMessage id="store/flowFinance.accountCreate.introPage.accountErrors.underReview" />
+            )}
+            {accountStatus === 'approved' && (
+              <FormattedMessage id="store/flowFinance.accountCreate.introPage.accountErrors.approved" />
+            )}
+            {accountStatus === 'rejected' && (
+              <FormattedMessage id="store/flowFinance.accountCreate.introPage.accountErrors.rejected" />
+            )}
+          </div>
+        </div>
         <div className={`${handles.poweredByContainer} flex flex-row`}>
           <div className="flex flex-column justify-center">
             <FormattedMessage id="store/flowFinance.accountCreate.introPage.poweredBy" />
           </div>
-          <img src={FlowFinanceLogo} alt="Flow Finance" />
+          <img
+            src={FlowFinanceLogo}
+            alt="Flow Finance"
+            className="self-center"
+          />
         </div>
       </div>
     </div>

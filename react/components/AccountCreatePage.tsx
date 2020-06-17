@@ -25,7 +25,7 @@ const AccountCreatePage: StorefrontFunctionComponent = () => {
         style={{ maxWidth: 800, margin: '0 auto' }}
       >
         <PageBlock variation="full">
-          <AccountCreate handleExit={handleExit} />
+          <AccountCreate handleExit={handleExit} checkAccount />
         </PageBlock>
       </div>
     </div>

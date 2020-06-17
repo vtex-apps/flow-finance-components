@@ -8,14 +8,16 @@ import {
 import AccountCreatePageController from './AccountCreatePageController'
 import './AccountCreatePages/styles/global.css'
 
-interface ExitProps {
+interface Props {
   handleExit(): Promise<void>
+  checkAccount?: boolean
 }
 
 const CSS_HANDLES = ['accountCreateContainer'] as const
 
-const AccountCreate: StorefrontFunctionComponent<ExitProps> = ({
+const AccountCreate: StorefrontFunctionComponent<Props> = ({
   handleExit,
+  checkAccount = false,
 }) => {
   const handles = useCssHandles(CSS_HANDLES)
   return (
@@ -34,7 +36,10 @@ const AccountCreate: StorefrontFunctionComponent<ExitProps> = ({
       documentsComplete={initialAccountCreateState.documentsValid}
     >
       <div className={handles.accountCreateContainer}>
-        <AccountCreatePageController handleExit={handleExit} />
+        <AccountCreatePageController
+          handleExit={handleExit}
+          checkAccount={checkAccount}
+        />
       </div>
     </AccountCreateContextProvider>
   )
