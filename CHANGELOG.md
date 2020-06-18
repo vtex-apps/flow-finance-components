@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.12] - 2020-06-18
+
 ### Changed
 
 - AccountCreatePage will check shopper's account status and forbid account signup if status is "approved", "rejected", or "under-review".
