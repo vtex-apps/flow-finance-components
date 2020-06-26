@@ -1,5 +1,5 @@
 query AppSettings {
-  appSettings(app: "vtex.flow-finance-components", version: "0.x")
+  appSettings(app: "vtex.flow-finance-components", version: "1.x")
     @context(provider: "vtex.apps-graphql") {
     message
   }
