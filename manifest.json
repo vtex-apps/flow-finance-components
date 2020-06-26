@@ -37,7 +37,7 @@
     }
   },
   "dependencies": {
-    "vtex.flow-finance-api": "0.x",
+    "vtex.flow-finance-api": "1.x",
     "vtex.store": "2.x",
     "vtex.store-components": "3.x",
     "vtex.styleguide": "9.x",
