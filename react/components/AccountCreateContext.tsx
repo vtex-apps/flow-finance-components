@@ -23,11 +23,14 @@ interface AccountCreateContextProps {
 }
 
 type ReducerActions =
-  | { type: 'SET_BUSINESS_FIELD'; args: { field: string; value: string } }
+  | {
+      type: 'SET_BUSINESS_FIELD'
+      args: { field: string; value: string | File }
+    }
   | { type: 'SET_BUSINESS_ADDRESS'; args: { address: Address } }
   | {
       type: 'SET_PERSONAL_FIELD'
-      args: { field: string; value: string | boolean }
+      args: { field: string; value: string | boolean | File }
     }
   | { type: 'SET_PERSONAL_ADDRESS'; args: { address: Address } }
   | { type: 'SET_TOS_FIELD'; args: { field: string; value: string } }
@@ -49,7 +52,6 @@ const initialAccountCreateState = {
     email: '',
     phoneNumber: '',
     docType: 'CONTRATO-SOCIAL',
-    physicalDocValue: '',
     physicalDocFileName: '',
   },
   businessAddress: {
@@ -74,7 +76,6 @@ const initialAccountCreateState = {
     lastName: '',
     firstName: '',
     docType: 'CNH',
-    physicalDocValue: '',
     physicalDocFileName: '',
     virtualDocValue: '',
     virtualDocExp: '',

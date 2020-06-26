@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Changed
+
+- Update `processApplication` mutation to use `Upload` variables, allowing files to be sent as multipart form data.
+
 ## [0.0.12] - 2020-06-18
 
 ### Changed

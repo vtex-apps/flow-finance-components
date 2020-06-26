@@ -5,7 +5,7 @@ export interface BusinessInformation {
   email: string
   phoneNumber: string
   docType: string
-  physicalDocValue: string
+  physicalDocFile?: File
   physicalDocFileName: string
 }
 
@@ -32,7 +32,7 @@ export interface PersonalInformation {
   lastName: string
   firstName: string
   docType: string
-  physicalDocValue: string
+  physicalDocFile?: File
   physicalDocFileName: string
   virtualDocValue: string
   virtualDocExp?: string
