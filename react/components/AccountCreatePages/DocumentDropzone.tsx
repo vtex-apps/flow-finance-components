@@ -68,16 +68,16 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
   const dispatch = useAccountCreateDispatch()
   const handles = useCssHandles(CSS_HANDLES)
 
-  function getBase64(file: File) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = () => {
-        resolve(reader.result)
-      }
-      reader.onerror = reject
-      reader.readAsDataURL(file)
-    })
-  }
+  // function getBase64(file: File) {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader()
+  //     reader.onload = () => {
+  //       resolve(reader.result)
+  //     }
+  //     reader.onerror = reject
+  //     reader.readAsDataURL(file)
+  //   })
+  // }
 
   const onDropImage = async (files: File[]) => {
     setError(null)
@@ -85,7 +85,7 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
       if (files?.[0]) {
         setIsLoading(true)
 
-        const base64EncodedFile = (await getBase64(files[0])) as string
+        // const base64EncodedFile = (await getBase64(files[0])) as string
 
         dispatch({
           type:
@@ -93,8 +93,9 @@ const DocumentDropzone: StorefrontFunctionComponent<DropProps> = ({
               ? 'SET_BUSINESS_FIELD'
               : 'SET_PERSONAL_FIELD',
           args: {
-            field: 'physicalDocValue',
-            value: base64EncodedFile.split(',')[1],
+            field: 'physicalDocFile',
+            value: files[0],
+            // value: base64EncodedFile.split(',')[1],
           },
         })
         dispatch({

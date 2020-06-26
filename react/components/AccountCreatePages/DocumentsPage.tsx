@@ -85,8 +85,8 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
 
   useEffect(() => {
     if (
-      businessInformation.physicalDocValue !== '' &&
-      personalInformation.physicalDocValue !== ''
+      businessInformation.physicalDocFile &&
+      personalInformation.physicalDocFile
     ) {
       dispatch({
         type: 'SET_DOCUMENTS_VALID',
@@ -103,10 +103,10 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
       })
     }
   }, [
-    businessInformation.physicalDocValue,
+    businessInformation.physicalDocFile,
     dispatch,
     documentsValid,
-    personalInformation.physicalDocValue,
+    personalInformation.physicalDocFile,
   ])
 
   async function handlePageModeChange(newPageMode: string) {
@@ -164,7 +164,6 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
               physicalDocument: [
                 {
                   type: businessInformation.docType,
-                  value: businessInformation.physicalDocValue,
                 },
               ],
             },
@@ -189,7 +188,6 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
               physicalDocument: [
                 {
                   type: personalInformation.docType,
-                  value: personalInformation.physicalDocValue,
                 },
               ],
             },
@@ -203,6 +201,8 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
             userAgent: navigator.userAgent,
           },
         },
+        businessInfoFile: businessInformation.physicalDocFile,
+        personalInfoFile: personalInformation.physicalDocFile,
       },
     }).then(
       response => {
@@ -257,7 +257,7 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
             <Button
               variation="primary"
               onClick={() => handlePageModeChange('select')}
-              disabled={personalInformation.physicalDocValue === ''}
+              disabled={!personalInformation.physicalDocFile}
             >
               <FormattedMessage id="store/flowFinance.accountCreate.documents.continueLabel" />
             </Button>
@@ -277,7 +277,7 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
             <Button
               variation="primary"
               onClick={() => handlePageModeChange('select')}
-              disabled={businessInformation.physicalDocValue === ''}
+              disabled={!businessInformation.physicalDocFile}
             >
               <FormattedMessage id="store/flowFinance.accountCreate.documents.continueLabel" />
             </Button>
@@ -296,17 +296,13 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
           >
             <div className={`${handles.documentTypeContainer} w-50 pa2 tc`}>
               <img
-                src={
-                  personalInformation.physicalDocValue === ''
-                    ? IconIdGray
-                    : IconId
-                }
+                src={!personalInformation.physicalDocFile ? IconIdGray : IconId}
                 alt="ID Icon"
                 className={`${handles.documentTypeIcon}`}
               />
               <div
                 className={`${handles.documentTypeLabel} ma3 ${
-                  personalInformation.physicalDocValue === '' ? 'c-muted-4' : ''
+                  !personalInformation.physicalDocFile ? 'c-muted-4' : ''
                 }`}
               >
                 <FormattedMessage id="store/flowFinance.accountCreate.documents.personalIdLabel" />
@@ -343,7 +339,7 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
             <div className={`${handles.documentTypeContainer} w-50 pa2 tc`}>
               <img
                 src={
-                  businessInformation.physicalDocValue === ''
+                  !businessInformation.physicalDocFile
                     ? IconContratoGray
                     : IconContrato
                 }
@@ -352,7 +348,7 @@ const DocumentsPage: StorefrontFunctionComponent<DocumentsPageProps &
               />
               <div
                 className={`${handles.documentTypeLabel} ma3 ${
-                  businessInformation.physicalDocValue === '' ? 'c-muted-4' : ''
+                  !businessInformation.physicalDocFile ? 'c-muted-4' : ''
                 }`}
               >
                 <FormattedMessage id="store/flowFinance.accountCreate.documents.businessIdLabel" />
