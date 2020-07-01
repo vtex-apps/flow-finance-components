@@ -16,7 +16,7 @@ This app provides store components related to the [Flow Finance payment method](
 
 ```json
 "dependencies": {
-    "vtex.flow-finance-components": "0.x"
+    "vtex.flow-finance-components": "1.x"
   }
 ```
 
