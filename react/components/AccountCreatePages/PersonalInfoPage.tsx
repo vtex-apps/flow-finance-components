@@ -179,9 +179,9 @@ const PersonalInfoPage: StorefrontFunctionComponent<WrappedComponentProps &
   const [showMaritalStatusError, setShowMaritalStatusError] = useState(false)
 
   const addressWithValidation = addValidation({
+    ...personalAddress,
     addressQuery: null,
     addressId: getGGUID(),
-    ...personalAddress,
   })
   addressWithValidation.addressId.value = getGGUID()
   addressWithValidation.receiverName.value = 'notApplicable'
