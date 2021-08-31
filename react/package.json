@@ -34,5 +34,5 @@
     "vtex.store-graphql": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.store-graphql@2.122.0/public/@types/vtex.store-graphql",
     "vtex.styleguide": "http://vtex.vtexassets.com/_v/public/typings/v1/vtex.styleguide@9.114.0/public/@types/vtex.styleguide"
   },
-  "version": "1.0.2"
+  "version": "1.0.4"
 }
